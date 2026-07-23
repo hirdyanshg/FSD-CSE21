@@ -39,4 +39,4 @@ function display(callback){
 function lf (){
     console.log("this is callback function");
 }
-display(lf);
+display(lf); 
