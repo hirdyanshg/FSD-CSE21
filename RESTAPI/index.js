@@ -32,6 +32,14 @@ app.put('/users/:id', (req, res) => {
   res.json(user);
 });
 
+//product API (ProductretsAPI)
+//Create a REST API for products. Test all APIs using Thunder Client
+//DELETE
+app.delete("/users/:id", (req, res) => {
+    users=users.filter(u=> u.id != req.params.id);
+    res.send("user deleted");
+});
+
 app.listen(8000, () => {
   console.log('Server is running on port 8000');
 });
