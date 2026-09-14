@@ -1,0 +1,12 @@
+{
+  "name": "student-record-manager",
+  "version": "1.0.0",
+  "description": "Student Record Management System using Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
