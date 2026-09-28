@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #17365d;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-box h2,
+.requests h2 {
+    color: #17365d;
+}
+
+form {
+    display: grid;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background: #17365d;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #24558d;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cancel {
+    background: #777;
+}
+
+.requests {
+    margin-top: 35px;
+}
+
+.request-card {
+    background: white;
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #17365d;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.request-header h3 {
+    color: #17365d;
+}
+
+.priority {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.low {
+    background: #d8f3dc;
+    color: #26733a;
+}
+
+.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.high {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.delete {
+    background: #c0392b;
+}
+
+.delete:hover {
+    background: #922b21;
+}
+
+.empty {
+    color: #777;
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .request-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}
+.message {
+    background: #e8f4ff;
+    color: #174a73;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
