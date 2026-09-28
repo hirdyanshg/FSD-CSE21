@@ -6,5 +6,13 @@
     "category": "Hostel",
     "description": "bad",
     "priority": "Medium"
+  },
+  {
+    "id": 2,
+    "studentName": "JAGGU LAFDEWALI ",
+    "email": "ishaanbudhha@gmail.com",
+    "category": "Other",
+    "description": "mental issues",
+    "priority": "Low"
   }
 ]

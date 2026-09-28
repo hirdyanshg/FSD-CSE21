@@ -14,23 +14,18 @@ function App() {
     const [priority, setPriority] = useState("Medium");
 
     const [editingId, setEditingId] = useState(null);
-
     const [message, setMessage] = useState("");
 
 
-    // ======================================
+    // ==============================
     // GET REQUESTS
-    // ======================================
+    // ==============================
 
     const getRequests = async () => {
 
         try {
 
             const response = await fetch(API_URL);
-
-            if (!response.ok) {
-                throw new Error("Could not get requests");
-            }
 
             const data = await response.json();
 
@@ -40,9 +35,7 @@ function App() {
 
             console.log(error);
 
-            setMessage(
-                "Cannot connect to backend. Check port 5000."
-            );
+            setMessage("Backend connection failed.");
 
         }
 
@@ -56,33 +49,24 @@ function App() {
     }, []);
 
 
-    // ======================================
+    // ==============================
     // SUBMIT / UPDATE
-    // ======================================
+    // ==============================
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        console.log("Submit button clicked");
-
 
         const requestData = {
 
-            studentName: studentName,
-
-            email: email,
-
-            category: category,
-
-            description: description,
-
-            priority: priority
+            studentName,
+            email,
+            category,
+            description,
+            priority
 
         };
-
-
-        console.log("Sending:", requestData);
 
 
         try {
@@ -95,7 +79,6 @@ function App() {
                 response = await fetch(
                     `${API_URL}/${editingId}`,
                     {
-
                         method: "PUT",
 
                         headers: {
@@ -103,7 +86,6 @@ function App() {
                         },
 
                         body: JSON.stringify(requestData)
-
                     }
                 );
 
@@ -112,7 +94,6 @@ function App() {
                 response = await fetch(
                     API_URL,
                     {
-
                         method: "POST",
 
                         headers: {
@@ -120,43 +101,29 @@ function App() {
                         },
 
                         body: JSON.stringify(requestData)
-
                     }
                 );
 
             }
 
 
-            const result = await response.json();
-
-
-            console.log("Server response:", result);
+            const data = await response.json();
 
 
             if (!response.ok) {
 
-                setMessage(
-                    result.message || "Something went wrong."
-                );
+                setMessage(data.message);
 
                 return;
 
             }
 
 
-            if (editingId !== null) {
-
-                setMessage(
-                    "Request updated successfully!"
-                );
-
-            } else {
-
-                setMessage(
-                    "Request submitted successfully!"
-                );
-
-            }
+            setMessage(
+                editingId !== null
+                    ? "Request updated successfully."
+                    : "Request submitted successfully."
+            );
 
 
             clearForm();
@@ -166,20 +133,18 @@ function App() {
 
         } catch (error) {
 
-            console.log("Error:", error);
+            console.log(error);
 
-            setMessage(
-                "Cannot connect to the backend server."
-            );
+            setMessage("Unable to connect to server.");
 
         }
 
     };
 
 
-    // ======================================
+    // ==============================
     // EDIT
-    // ======================================
+    // ==============================
 
     const editRequest = (request) => {
 
@@ -195,63 +160,45 @@ function App() {
 
         setEditingId(request.id);
 
-        setMessage("");
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
     };
 
 
-    // ======================================
+    // ==============================
     // DELETE
-    // ======================================
+    // ==============================
 
     const deleteRequest = async (id) => {
 
         try {
 
-            const response = await fetch(
+            await fetch(
                 `${API_URL}/${id}`,
                 {
                     method: "DELETE"
                 }
             );
 
-
-            const result = await response.json();
-
-
-            if (!response.ok) {
-
-                setMessage(result.message);
-
-                return;
-
-            }
-
-
-            setMessage(
-                "Request deleted successfully!"
-            );
-
+            setMessage("Request deleted.");
 
             getRequests();
-
 
         } catch (error) {
 
             console.log(error);
-
-            setMessage(
-                "Cannot connect to backend."
-            );
 
         }
 
     };
 
 
-    // ======================================
+    // ==============================
     // CLEAR FORM
-    // ======================================
+    // ==============================
 
     const clearForm = () => {
 
@@ -270,290 +217,542 @@ function App() {
     };
 
 
+    // ==============================
+    // STATISTICS
+    // ==============================
+
+    const total = requests.length;
+
+    const high = requests.filter(
+        r => r.priority === "High"
+    ).length;
+
+    const medium = requests.filter(
+        r => r.priority === "Medium"
+    ).length;
+
+    const low = requests.filter(
+        r => r.priority === "Low"
+    ).length;
+
+
     return (
 
-        <div className="container">
+        <div className="app">
 
-            <h1>
-                Campus Help Desk
-            </h1>
+            {/* ================= HEADER ================= */}
+
+            <header className="header">
+
+                <div className="brand">
+
+                    <div className="logo">
+                        CH
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Campus<span>Help</span>
+                        </h2>
+
+                        <p>
+                            Student Support System
+                        </p>
+
+                    </div>
+
+                </div>
 
 
-            <p className="subtitle">
-                Submit and manage campus-related
-                problems and requests
-            </p>
+                <div className="status">
 
+                    <span className="status-dot"></span>
+
+                    System Online
+
+                </div>
+
+            </header>
+
+
+            {/* ================= HERO ================= */}
+
+            <section className="hero">
+
+                <div className="hero-text">
+
+                    <p className="eyebrow">
+                        CAMPUS • SUPPORT • CONNECT
+                    </p>
+
+                    <h1>
+                        Your campus.
+                        <br />
+                        <span>Your voice.</span>
+                    </h1>
+
+                    <p className="hero-description">
+                        Report problems, raise requests and
+                        keep track of issues that matter to
+                        your campus life.
+                    </p>
+
+                </div>
+
+
+                <div className="hero-shape">
+
+                    <div className="shape-one"></div>
+
+                    <div className="shape-two"></div>
+
+                    <div className="shape-text">
+                        HELP
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            {/* ================= STATS ================= */}
+
+            <section className="stats">
+
+                <div className="stat-card total-card">
+
+                    <span>Total Requests</span>
+
+                    <strong>{total}</strong>
+
+                    <small>
+                        All submissions
+                    </small>
+
+                </div>
+
+
+                <div className="stat-card high-card">
+
+                    <span>High Priority</span>
+
+                    <strong>{high}</strong>
+
+                    <small>
+                        Needs attention
+                    </small>
+
+                </div>
+
+
+                <div className="stat-card medium-card">
+
+                    <span>Medium Priority</span>
+
+                    <strong>{medium}</strong>
+
+                    <small>
+                        Regular requests
+                    </small>
+
+                </div>
+
+
+                <div className="stat-card low-card">
+
+                    <span>Low Priority</span>
+
+                    <strong>{low}</strong>
+
+                    <small>
+                        Lower urgency
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            {/* ================= MESSAGE ================= */}
 
             {message && (
 
                 <div className="message">
 
+                    <span>✓</span>
+
                     {message}
+
+                    <button
+                        onClick={() => setMessage("")}
+                    >
+                        ×
+                    </button>
 
                 </div>
 
             )}
 
 
-            {/* FORM */}
+            {/* ================= MAIN CONTENT ================= */}
 
-            <div className="form-box">
-
-                <h2>
-
-                    {editingId !== null
-                        ? "Update Request"
-                        : "Submit a Request"}
-
-                </h2>
+            <main className="main-grid">
 
 
-                <form onSubmit={handleSubmit}>
+                {/* ================= FORM ================= */}
 
-                    <label>
-                        Student Name
-                    </label>
+                <section className="form-section">
 
-                    <input
-                        type="text"
-                        placeholder="Enter student name"
-                        value={studentName}
-                        onChange={(e) =>
-                            setStudentName(e.target.value)
-                        }
-                        required
-                    />
+                    <div className="section-heading">
 
+                        <div>
 
-                    <label>
-                        Email
-                    </label>
+                            <p className="section-number">
+                                01
+                            </p>
 
-                    <input
-                        type="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={(e) =>
-                            setEmail(e.target.value)
-                        }
-                        required
-                    />
+                            <h2>
+                                {editingId !== null
+                                    ? "Update Request"
+                                    : "Raise a Request"}
+                            </h2>
 
+                        </div>
 
-                    <label>
-                        Category
-                    </label>
-
-                    <select
-                        value={category}
-                        onChange={(e) =>
-                            setCategory(e.target.value)
-                        }
-                        required
-                    >
-
-                        <option value="">
-                            Select Category
-                        </option>
-
-                        <option value="Hostel">
-                            Hostel
-                        </option>
-
-                        <option value="Academic">
-                            Academic
-                        </option>
-
-                        <option value="Library">
-                            Library
-                        </option>
-
-                        <option value="Infrastructure">
-                            Infrastructure
-                        </option>
-
-                        <option value="Transport">
-                            Transport
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
-
-                    <label>
-                        Problem Description
-                    </label>
-
-                    <textarea
-                        placeholder="Describe your problem"
-                        value={description}
-                        onChange={(e) =>
-                            setDescription(e.target.value)
-                        }
-                        required
-                    />
-
-
-                    <label>
-                        Priority
-                    </label>
-
-                    <select
-                        value={priority}
-                        onChange={(e) =>
-                            setPriority(e.target.value)
-                        }
-                    >
-
-                        <option value="Low">
-                            Low
-                        </option>
-
-                        <option value="Medium">
-                            Medium
-                        </option>
-
-                        <option value="High">
-                            High
-                        </option>
-
-                    </select>
-
-
-                    <div className="form-buttons">
-
-                        <button type="submit">
-
-                            {editingId !== null
-                                ? "Update Request"
-                                : "Submit Request"}
-
-                        </button>
-
-
-                        {editingId !== null && (
-
-                            <button
-                                type="button"
-                                className="cancel"
-                                onClick={clearForm}
-                            >
-
-                                Cancel
-
-                            </button>
-
-                        )}
+                        <span className="required">
+                            * Required fields
+                        </span>
 
                     </div>
 
-                </form>
 
-            </div>
+                    <form
+                        className="request-form"
+                        onSubmit={handleSubmit}
+                    >
 
+                        <div className="input-row">
 
-            {/* REQUESTS */}
+                            <div className="input-group">
 
-            <div className="requests">
+                                <label>
+                                    Student Name *
+                                </label>
 
-                <h2>
-                    Submitted Requests
-                </h2>
-
-
-                {requests.length === 0 ? (
-
-                    <p className="empty">
-                        No requests submitted yet.
-                    </p>
-
-                ) : (
-
-                    requests.map((request) => (
-
-                        <div
-                            className="request-card"
-                            key={request.id}
-                        >
-
-                            <div className="request-header">
-
-                                <h3>
-                                    #{request.id} -{" "}
-                                    {request.category}
-                                </h3>
-
-
-                                <span
-                                    className={
-                                        `priority ${request.priority.toLowerCase()}`
+                                <input
+                                    type="text"
+                                    placeholder="e.g. Hirdyansh Goyal"
+                                    value={studentName}
+                                    onChange={(e) =>
+                                        setStudentName(e.target.value)
                                     }
-                                >
-
-                                    {request.priority}
-
-                                </span>
+                                    required
+                                />
 
                             </div>
 
 
-                            <p>
-                                <strong>
-                                    Student:
-                                </strong>{" "}
-                                {request.studentName}
-                            </p>
+                            <div className="input-group">
 
+                                <label>
+                                    Email *
+                                </label>
 
-                            <p>
-                                <strong>
-                                    Email:
-                                </strong>{" "}
-                                {request.email}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Problem:
-                                </strong>{" "}
-                                {request.description}
-                            </p>
-
-
-                            <div className="actions">
-
-                                <button
-                                    onClick={() =>
-                                        editRequest(request)
+                                <input
+                                    type="email"
+                                    placeholder="you@college.edu"
+                                    value={email}
+                                    onChange={(e) =>
+                                        setEmail(e.target.value)
                                     }
-                                >
-                                    Edit
-                                </button>
-
-
-                                <button
-                                    className="delete"
-                                    onClick={() =>
-                                        deleteRequest(request.id)
-                                    }
-                                >
-                                    Delete
-                                </button>
+                                    required
+                                />
 
                             </div>
 
                         </div>
 
-                    ))
 
-                )}
+                        <div className="input-row">
 
-            </div>
+                            <div className="input-group">
+
+                                <label>
+                                    Category *
+                                </label>
+
+                                <select
+                                    value={category}
+                                    onChange={(e) =>
+                                        setCategory(e.target.value)
+                                    }
+                                    required
+                                >
+
+                                    <option value="">
+                                        Choose category
+                                    </option>
+
+                                    <option value="Hostel">
+                                        🏠 Hostel
+                                    </option>
+
+                                    <option value="Academic">
+                                        📚 Academic
+                                    </option>
+
+                                    <option value="Library">
+                                        📖 Library
+                                    </option>
+
+                                    <option value="Infrastructure">
+                                        🏗 Infrastructure
+                                    </option>
+
+                                    <option value="Transport">
+                                        🚌 Transport
+                                    </option>
+
+                                    <option value="Other">
+                                        ✦ Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div className="input-group">
+
+                                <label>
+                                    Priority *
+                                </label>
+
+                                <select
+                                    value={priority}
+                                    onChange={(e) =>
+                                        setPriority(e.target.value)
+                                    }
+                                >
+
+                                    <option value="Low">
+                                        Low
+                                    </option>
+
+                                    <option value="Medium">
+                                        Medium
+                                    </option>
+
+                                    <option value="High">
+                                        High
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="input-group">
+
+                            <label>
+                                Problem Description *
+                            </label>
+
+                            <textarea
+                                placeholder="Tell us what happened and where..."
+                                value={description}
+                                onChange={(e) =>
+                                    setDescription(e.target.value)
+                                }
+                                required
+                            ></textarea>
+
+                            <small className="hint">
+                                Be specific so the concerned department
+                                can resolve it faster.
+                            </small>
+
+                        </div>
+
+
+                        <div className="form-actions">
+
+                            <button
+                                className="submit-btn"
+                                type="submit"
+                            >
+
+                                {editingId !== null
+                                    ? "Update Request →"
+                                    : "Submit Request →"}
+
+                            </button>
+
+
+                            {editingId !== null && (
+
+                                <button
+                                    type="button"
+                                    className="cancel-btn"
+                                    onClick={clearForm}
+                                >
+                                    Cancel
+                                </button>
+
+                            )}
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                {/* ================= REQUESTS ================= */}
+
+                <section className="requests-section">
+
+                    <div className="section-heading">
+
+                        <div>
+
+                            <p className="section-number">
+                                02
+                            </p>
+
+                            <h2>
+                                Live Requests
+                            </h2>
+
+                        </div>
+
+                        <span className="request-count">
+                            {total} total
+                        </span>
+
+                    </div>
+
+
+                    <div className="request-list">
+
+                        {requests.length === 0 ? (
+
+                            <div className="empty-state">
+
+                                <div className="empty-icon">
+                                    +
+                                </div>
+
+                                <h3>
+                                    No requests yet
+                                </h3>
+
+                                <p>
+                                    Your submitted requests
+                                    will appear here.
+                                </p>
+
+                            </div>
+
+                        ) : (
+
+                            requests.map((request) => (
+
+                                <article
+                                    className="request-card"
+                                    key={request.id}
+                                >
+
+                                    <div className="request-top">
+
+                                        <span className="request-id">
+                                            REQ-{String(request.id).padStart(3, "0")}
+                                        </span>
+
+                                        <span
+                                            className={
+                                                `priority-tag ${request.priority.toLowerCase()}`
+                                            }
+                                        >
+                                            {request.priority}
+                                        </span>
+
+                                    </div>
+
+
+                                    <h3>
+                                        {request.category}
+                                    </h3>
+
+
+                                    <p className="problem">
+                                        {request.description}
+                                    </p>
+
+
+                                    <div className="request-info">
+
+                                        <span>
+                                            👤 {request.studentName}
+                                        </span>
+
+                                        <span>
+                                            ✉ {request.email}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div className="card-actions">
+
+                                        <button
+                                            onClick={() =>
+                                                editRequest(request)
+                                            }
+                                        >
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            className="delete-btn"
+                                            onClick={() =>
+                                                deleteRequest(request.id)
+                                            }
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </div>
+
+                                </article>
+
+                            ))
+
+                        )}
+
+                    </div>
+
+                </section>
+
+            </main>
+
+
+            {/* ================= FOOTER ================= */}
+
+            <footer>
+
+                <p>
+                    Campus Help Desk
+                </p>
+
+                <span>
+                    Built for better campus communication.
+                </span>
+
+            </footer>
 
         </div>
 
