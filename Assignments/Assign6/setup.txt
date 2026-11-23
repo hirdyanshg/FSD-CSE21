@@ -1,0 +1,7 @@
+upload file(folder name)//Multer API (upload the file)
+1.server.js
+2.package.json(npm init)
+3.package_lock.json(npm i express multer)
+4.public folder
+    a.index.html
+5.upload folder
