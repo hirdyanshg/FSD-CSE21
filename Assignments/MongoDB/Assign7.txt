@@ -1,4 +1,4 @@
-EXPERIENCE 7: INSTALL MONGODB AND CREATE DATABASE & COLLECTION
+EXPERIMENT 7: INSTALL MONGODB AND CREATE DATABASE & COLLECTION
 
 Aim:
 Install MongoDB locally (or use MongoDB Atlas), create a database named studentDB and a collection named students, and insert sample data into the collection.

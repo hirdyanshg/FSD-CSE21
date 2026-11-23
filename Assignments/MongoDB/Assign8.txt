@@ -1,4 +1,4 @@
-EXPERIENCE 8: CRUD OPERATIONS ON studentDB.students
+EXPERIMENT 8: CRUD OPERATIONS ON studentDB.students
 
 Aim:
 Perform insertion, retrieval, updation, and deletion operations on the studentDB.students collection.
